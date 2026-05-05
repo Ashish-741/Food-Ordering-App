@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: foodapp
+
+  # Default profile uses H2 for quick local dev (no PostgreSQL needed)
+  # Switch to 'prod' profile for PostgreSQL
+  profiles:
+    active: dev
+
+  datasource:
+    url: jdbc:h2:mem:foodapp
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      # Redis is optional — cart will fallback to in-memory if unavailable
+
+# JWT Configuration
+app:
+  jwt:
+    secret: "myUltraSecretKeyForJWTTokenGenerationThatIsAtLeast256BitsLong!@#$%"
+    expiration-ms: 86400000        # 24 hours
+    refresh-expiration-ms: 604800000  # 7 days
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.foodapp: DEBUG
+    org.springframework.security: DEBUG
